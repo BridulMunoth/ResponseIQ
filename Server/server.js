@@ -19,6 +19,7 @@ app.use(cors({
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/survey', require('./routes/surveyRoutes'));
+app.use('/api/analytics', require('./routes/analyticsRoutes'));
 
 // Error Handler Middleware
 app.use(errorHandler);
