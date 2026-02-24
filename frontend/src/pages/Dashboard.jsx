@@ -43,6 +43,7 @@ const Dashboard = () => {
   );
   const [activeSection, setActiveSection] = useState("overview");
   const [refreshing, setRefreshing] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Data states
   const [surveys, setSurveys] = useState([]);
@@ -151,6 +152,8 @@ const Dashboard = () => {
         setActiveSection={setActiveSection}
         onLogout={handleLogout}
         totalSurveys={surveys.length}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
       />
       <div className="main-content">
         <Topbar
@@ -161,6 +164,7 @@ const Dashboard = () => {
           onRefresh={() => fetchAll()}
           onExport={activeSection === "responses" ? handleExportCSV : undefined}
           refreshing={refreshing}
+          onMenuToggle={() => setSidebarOpen((o) => !o)}
         />
 
         <div className="page-body">
@@ -354,7 +358,6 @@ const Dashboard = () => {
                 {surveys.length === 0 ? (
                   <div className="loading-state">
                     <div className="spinner"></div>
-                    <p>Loading responses...</p>
                   </div>
                 ) : (
                   <SurveyTable

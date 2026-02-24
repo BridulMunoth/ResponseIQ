@@ -7,7 +7,9 @@ const api = axios.create({
 // Attach JWT token to every request
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('adminToken');
+        const adminToken = localStorage.getItem('adminToken');
+        const customerToken = localStorage.getItem('customerToken');
+        const token = adminToken || customerToken;
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -16,11 +18,11 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Handle 401 globally
+// Handle 401 globally — only redirect admins
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        if (error.response?.status === 401 && localStorage.getItem('adminToken')) {
             localStorage.removeItem('adminToken');
             window.location.href = '/login';
         }
@@ -28,8 +30,12 @@ api.interceptors.response.use(
     }
 );
 
-// Auth
+// Admin Auth
 export const loginAdmin = (data) => api.post('/auth/login', data);
+
+// Customer Auth
+export const loginCustomer = (data) => api.post('/customer/login', data);
+export const registerCustomer = (data) => api.post('/customer/register', data);
 
 // Surveys
 export const getSurveys = () => api.get('/survey');

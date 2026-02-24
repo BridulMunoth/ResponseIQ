@@ -38,11 +38,13 @@ const Login = () => {
     <div className="login-page">
       <div className="login-card">
         <div className="login-logo">
-          <div className="login-logo-icon">
-            <BarChart3 size={28} color="#fff" />
-          </div>
-          <h1>ResponseIQ</h1>
-          <p>Survey Analytics Dashboard</p>
+          <img
+            src="/logo.png"
+            alt="ResponseIQ Logo"
+            className="login-logo-img"
+            style={{ height: "64px", marginBottom: "8px" }}
+          />
+          <p className="unselectable">Survey Analytics Dashboard</p>
         </div>
 
         {error && (
